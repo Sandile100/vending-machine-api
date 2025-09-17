@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: vending-machine-api
+
+cache-manager:
+ caffeine-caches:
+   - cache-names: [ProductCache, CashCache]
+     spec: initialCapacity=50,maximumSize=10,expireAfterAccess=300s

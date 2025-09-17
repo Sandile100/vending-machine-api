@@ -3,6 +3,7 @@ package co.za.vendingmachineapi.service;
 import co.za.vendingmachineapi.entity.Cash;
 import co.za.vendingmachineapi.exception.NoChangeException;
 import co.za.vendingmachineapi.repository.CashRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -39,6 +40,7 @@ public class CashService {
         });
     }
 
+    @Cacheable(value = "CashCache", cacheManager = "myCacheManager", unless="#result == null")
     public Cash getCashByDenomination(final Integer denomination){
         return cashRepository.findDistinctByDenomination(denomination);
     }
