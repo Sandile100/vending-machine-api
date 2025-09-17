@@ -3,12 +3,13 @@ package co.za.vendingmachineapi.service;
 import co.za.vendingmachineapi.entity.Cash;
 import co.za.vendingmachineapi.exception.NoChangeException;
 import co.za.vendingmachineapi.repository.CashRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 import java.util.stream.Collectors;
-
+@Slf4j
 @Service
 public class CashService {
 
@@ -46,10 +47,10 @@ public class CashService {
     }
 
     public void addPaymentCash(Cash cash, final List<Integer> paymentCash) {
-        for( Integer payment : paymentCash) {
-            cash.setQuantity(cash.getQuantity() + payment);
+        int coinsToAdd = Math.toIntExact(paymentCash.stream().filter(i -> i.equals(cash.getDenomination())).count());
+            cash.setQuantity(cash.getQuantity() + coinsToAdd);
+            log.info("Update available cash, add : {}  R{} Notes", coinsToAdd, cash.getDenomination() );
             cashRepository.save(cash);
-        }
     }
 
     private List<Map<Object, Long>> calculateChange(final int sum) {
@@ -77,6 +78,8 @@ public class CashService {
     //Possible combination of the given sum and available on petty cash
     private List<Map<Object, Long>> possibleCombination(final List<Integer> combinationSum, final Map<Integer, Integer> availableOnPettyCash) {
         List<Map<Object, Long>> possibleCombinations = new ArrayList<>(Collections.singletonList(combinationSum.stream().collect(Collectors.groupingBy(i -> i, Collectors.counting()))));
+        if (combinationSum.isEmpty()) throw new NoChangeException("Sorry!! No change available at this moment");
+
         List<Map<Object, Long>> invalidCombination = new ArrayList<>();
         possibleCombinations.forEach(map -> map.forEach((key, value) -> {
             if (availableOnPettyCash.containsKey(key)) {

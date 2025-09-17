@@ -27,27 +27,28 @@ public class PaymentService {
 
     @Transactional
     public void purchaseProduct(final Integer productId, List<Integer> paymentCash) {
-        Optional<Product> product = productService.getProduct(productId);
+        Product product = productService.getProduct(productId);
 
-        if (product.isEmpty()) {
+        if (null == product) {
             log.error("Product not found");
             throw new ProductOutOfStockException("Product not found");
         }
 
         int totalPayment = paymentCash.stream().mapToInt(i -> i).sum();
-        int change = Math.toIntExact(totalPayment - product.get().getPrice().intValue());
+        int change = Math.toIntExact(totalPayment - product.getPrice().intValue());
 
         log.info("Update Available cash, add : {}", totalPayment);
-        for (Integer paymentNote : paymentCash) {
+        List<Integer> uniqueNotes = paymentCash.stream().distinct().toList();
+        for (Integer paymentNote : uniqueNotes) {
             Cash cash = cashService.getCashByDenomination(paymentNote);
             cashService.addPaymentCash(cash, paymentCash);
         }
         log.info("Dispense change for the customer. Total change : {}", change);
         cashService.dispenseChange(change);
-        log.info("Dispense purchased product  : {}", product.get().getName());
-        productService.dispenseProduct(product.get());
+        log.info("Dispense purchased product  : {}", product.getName());
+        productService.dispenseProduct(product);
         log.info("Update sales made");
-        salesService.updateSales(updateSales(product.get()));
+        salesService.updateSales(updateSales(product));
     }
 
     private Sale updateSales(final Product product) {

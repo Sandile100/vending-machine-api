@@ -18,8 +18,8 @@ public class ProductService {
         this.productRepository = productRepository;
     }
 
-    public Optional<Product> getProduct(final Integer id) {
-        return productRepository.findById(Long.valueOf(id));
+    public Product getProduct(final Integer id) {
+        return productRepository.findById(Long.valueOf(id)).get();
     }
 
     @Cacheable(value = "ProductCache", cacheManager = "myCacheManager", unless="#result == null")
