@@ -3,6 +3,7 @@ package co.za.vendingmachineapi.service;
 import co.za.vendingmachineapi.entity.Product;
 import co.za.vendingmachineapi.exception.ProductOutOfStockException;
 import co.za.vendingmachineapi.repository.ProductRepository;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +22,7 @@ public class ProductService {
         return productRepository.findById(Long.valueOf(id));
     }
 
+    @Cacheable(value = "ProductCache", cacheManager = "myCacheManager", unless="#result == null")
     public List<Product> getAllProducts() {
         return productRepository.findAll();
     }
