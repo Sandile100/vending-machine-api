@@ -9,11 +9,9 @@ import java.util.List;
 
 @Service
 public class SalesService {
-    public final SalesService salesService;
     private final SalesRepository salesRepository;
 
-    public SalesService(SalesService salesService, SalesRepository salesRepository) {
-        this.salesService = salesService;
+    public SalesService(SalesRepository salesRepository) {
         this.salesRepository = salesRepository;
     }
 
