@@ -1,9 +1,6 @@
 package co.za.vendingmachineapi.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -16,8 +13,9 @@ import java.time.Instant;
 @Entity
 @Table(name = "SALES")
 public class Sale {
-    @Id
+    @Id()
     @Column(name = "ID", nullable = false)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     @ColumnDefault("CURRENT_TIMESTAMP")

@@ -52,5 +52,3 @@ INSERT INTO Cash (Id,Name, Quantity, Denomination) Values(3,'Twenty Rand', 100, 
 INSERT INTO Cash (Id,Name, Quantity, Denomination) Values(4,'Fifty Rand', 100, 50);
 INSERT INTO Cash (Id,Name, Quantity, Denomination) Values(5,'Hundred Rand', 100, 100);
 INSERT INTO Cash (Id,Name, Quantity, Denomination) Values(6,'Two Hundred Rand', 100, 200);
-
-SELECT * FROM Products p JOIN Image i on p.name = i.name

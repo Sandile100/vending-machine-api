@@ -27,7 +27,7 @@ public class ProductController {
 
     @GetMapping("/products/{id}")
     public ResponseEntity<Product> getProduct(@PathVariable String id) {
-        return  ResponseEntity.status(HttpStatus.OK).body(productService.getProduct(Integer.valueOf(id)).orElse(null));
+        return  ResponseEntity.status(HttpStatus.OK).body(productService.getProduct(Integer.valueOf(id)));
     }
 
     @PostMapping("products")
