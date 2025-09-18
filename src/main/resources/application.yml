@@ -9,8 +9,10 @@ spring:
    console:
     enabled: true
   jpa:
+    defer-datasource-initialization: true
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
+
 
       hibernate:
         dialect=org:
