@@ -3,25 +3,22 @@ spring:
     url: jdbc:h2:mem:vending-machine
     username: sa
     password:
-    driver-class-name: org.h2.Driver
+    driverClassName: org.h2.Driver
 
-
+  h2:
+    console:
+      enabled: true
+      path: /h2
+      settings:
+        web-allow-others: true
   jpa:
     defer-datasource-initialization: true
-#    hibernate:
-#      ddl-auto: update
-
-
-#      hibernate:
-#        dialect=org:
-#          hibernate:
-#            dialect:
-#              H2Dialect:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+     ddl-auto: update
 
   application:
     name: vending-machine-api
-
-
 
 cache-manager:
  caffeine-caches:
