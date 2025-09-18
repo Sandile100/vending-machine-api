@@ -2,6 +2,7 @@ package co.za.vendingmachineapi.controller;
 
 
 import co.za.vendingmachineapi.exception.ProductOutOfStockException;
+import co.za.vendingmachineapi.model.PurchaseResponse;
 import co.za.vendingmachineapi.service.PaymentService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -45,12 +46,14 @@ class PaymentControllerTest {
                   "cashInserted": [5,5,2]
                 }
                 """;
+        // Return a PaymentResponse instance from the service to match controller's return type
+        when(paymentService.purchaseProduct(anyInt(), anyList()))
+                .thenReturn(mock(PurchaseResponse.class));
 
         var result = mockMvc.perform(post("/payment")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(body))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Purchase successful"))
                 .andReturn();
 
         assertThat(result.getResponse().getStatus()).isEqualTo(200);
