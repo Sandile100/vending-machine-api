@@ -4,6 +4,7 @@ import co.za.vendingmachineapi.entity.Cash;
 import co.za.vendingmachineapi.entity.Product;
 import co.za.vendingmachineapi.entity.Sale;
 import co.za.vendingmachineapi.exception.ProductOutOfStockException;
+import co.za.vendingmachineapi.model.PurchaseResponse;
 import jakarta.transaction.Transactional;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -26,7 +27,7 @@ public class PaymentService {
     }
 
     @Transactional
-    public void purchaseProduct(final Integer productId, List<Integer> paymentCash) {
+    public PurchaseResponse purchaseProduct(final Integer productId, List<Integer> paymentCash) {
         Product product = productService.getProduct(productId);
 
         if (null == product) {
@@ -49,6 +50,8 @@ public class PaymentService {
         productService.dispenseProduct(product);
         log.info("Update sales made");
         salesService.updateSales(updateSales(product));
+
+        return  new PurchaseResponse("Payment Successful!!", change, product.getName());
     }
 
     private Sale updateSales(final Product product) {

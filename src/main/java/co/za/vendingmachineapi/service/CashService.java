@@ -27,7 +27,9 @@ public class CashService {
         List<Map<Object, Long>> validCombination = calculateChange(sum);
         Map<Object, Long> anyCombination = validCombination.stream().findAny().orElse(null);
 
-        assert anyCombination != null;
+        if(anyCombination == null) {
+            throw new NoChangeException("Sorry!! No change available at this moment");
+        }
         if(anyCombination.isEmpty()) {
             throw new NoChangeException("Sorry!! No change available at this moment");
         }
