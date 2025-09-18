@@ -1,9 +1,12 @@
+DROP TABLE IF EXISTS Products;
+DROP TABLE IF EXISTS Image;
 CREATE TABLE Image
 (
     Id      INT PRIMARY KEY,
     Name    VARCHAR(100) NOT NULL UNIQUE,
     Content VARBINARY    NOT NULL
 );
+
 
 CREATE TABLE Products
 (
@@ -17,6 +20,7 @@ CREATE TABLE Products
     FOREIGN KEY (ImageId) REFERENCES Image(Id)
 );
 
+DROP TABLE IF EXISTS cash;
 CREATE TABLE cash
 (
     Id           INTEGER PRIMARY KEY,
@@ -25,6 +29,7 @@ CREATE TABLE cash
     Denomination INTEGER     NOT NULL
 );
 
+DROP TABLE IF EXISTS sales;
 CREATE TABLE sales
 (
     Id          INTEGER PRIMARY KEY,
