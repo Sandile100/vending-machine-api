@@ -2,7 +2,7 @@ spring:
   datasource:
     url: jdbc:h2:mem:vending-machine
     username: sa
-    password:
+    password: password
     driverClassName: org.h2.Driver
 
   h2:
@@ -19,6 +19,10 @@ spring:
 
   application:
     name: vending-machine-api
+  sql:
+    init:
+      platform: h2
+
 
 cache-manager:
  caffeine-caches:
