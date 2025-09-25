@@ -24,6 +24,7 @@ public class CashService {
     }
 
     public void dispenseChange(final int sum) {
+        if(sum == 0) return;
         List<Map<Object, Long>> validCombination = calculateChange(sum);
         Map<Object, Long> anyCombination = validCombination.stream().findAny().orElse(null);
 
@@ -63,6 +64,7 @@ public class CashService {
         int[] denominations = cashList.stream().filter(cash -> cash.getDenomination() != null).mapToInt(Cash::getDenomination).toArray();
         List<List<Integer>> possibleCombinations = combinationSum(denominations, sum);
 
+        if(sum == 0) return validCombination;
         for (List<Integer> l : possibleCombinations) {
             validCombination.addAll(possibleCombination(l, availableOnPettyCash));
         }
